@@ -51,7 +51,7 @@ Now we are able to make requests against our endpoint and see the returned infer
 
 As we can see, the infered outputs by the model is in both cases "no".
 
-### Creating pipelines
+### Creating pipelines
 
 As a final step, we are creating a Pipeline using the Python SDK in a Jupyter Notebook (see aml-pipelines-with-automated-machine-learning-step.ipynb). The pipeline is simply doing the same steps as previously, but in an automated fashion.
 
