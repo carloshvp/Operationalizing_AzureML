@@ -41,13 +41,13 @@ Once this is done, Azure "automagically" provides a swagger.json as API document
 
 We can run locally a docker image (see "swagger.sh") to run the Swagger UI, so that we see the graphical representation of the REST API, contained in the swagger.json file.
 
-![alt text](Screenshots/Swagger.png "Swagger UI")
+![alt text](Screenshots/swagger.png "Swagger UI")
 
 ### Scoring
 
 Now we are able to make requests against our endpoint and see the returned inferences. In our case, we have a small Python script ("endpoint.py") which composes a HTTP POST request with 2 example inputs and the authentication key required, since we enabled authentication
 
-![alt text](Screenshots/Scoring.png "Scoring")
+![alt text](Screenshots/scoring.png "Scoring")
 
 As we can see, the infered outputs by the model is in both cases "no".
 
