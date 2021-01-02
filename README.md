@@ -12,17 +12,67 @@ We are using a [Dataset](https://archive.ics.uci.edu/ml/datasets/Bank+Marketing)
 Dataset + Compute instance -> AutoML -> Model -> Container Instance, enabled logging, swagger
 
 ## Key Steps
-*TODO*: Write a short discription of the key steps. Remeber to include all the screenshots required to demonstrate key steps. 
 
+### Creating and picking a ML model with AutoML
 
-
-### Creating and picking a ML model with AutoML in Azure ML
-Once we have an Azure ML Workspace, we should create a Dataset with the mentioned Bank Marketing data. This is a simple and required step to launch AutoML. In the next pictures we can see the generated Dataset.
+Once we have an Azure ML Workspace, we are going to create a Dataset with the mentioned Bank Marketing data. This is a simple and required step to launch AutoML. In the next pictures we can see the generated Dataset.
 
 ![alt text](Screenshots/Dataset_uploaded.png "Dataset uploaded")
 ![alt text](Screenshots/Dataset_uploaded%202.png "Dataset uploaded")
 
-We now launch an AutoML run as a Classification problem with this Dataset, selecting the prediction column as the last one in the csv file, which is "y". For the AutoML to be able to run, we create a compute instance of type Standard_DS12_v2 and select "Explain best model", so that we are given the list of generated models.
+We now launch an AutoML run as a Classification problem with this Dataset, selecting the prediction column as the last one in the csv file, which is "y". For the AutoML to be able to run, we create a compute instance of type Standard_DS12_v2 and select "Explain best model", so that we are given the list of generated models. The AutoML run will take near to an hour to complete and show the results of each algorithm used.
+
+![alt text](Screenshots/AutoML_complete.png "AutoML complete")
+![alt text](Screenshots/AutoML_BestAlgos.png "AutoML best algorithms")
+
+In the next picture we can see the metrics of the best performing algorithm ("Voting ensemble")
+
+![alt text](Screenshots/Best_algo.png "Best algorithm")
+
+### Deploying the best performing model to an HTTP endpoint
+
+Next, we are going to deploy this model into an Azure Container Instance (ACI), so that we can directly run predictions over HTTP. We can also see in the next picture that "Application Insights" is enabled ("true").
+
+![alt text](Screenshots/Deployed_model.png "Deployed model")
+
+Once this is done, Azure "automagically" provides a swagger.json as API documentation. Since we have enabled logging, we get logs for all what is going on. We can see that by running logs.py and with the results shown in the next picture
+
+![alt text](Screenshots/logs.png "Endpoint logs")
+
+We can run locally a docker image (see "swagger.sh") to run the Swagger UI, so that we see the graphical representation of the REST API, contained in the swagger.json file.
+
+![alt text](Screenshots/Swagger.png "Swagger UI")
+
+### Scoring
+
+Now we are able to make requests against our endpoint and see the returned inferences. In our case, we have a small Python script ("endpoint.py") which composes a HTTP POST request with 2 example inputs and the authentication key required, since we enabled authentication
+
+![alt text](Screenshots/Scoring.png "Scoring")
+
+### Creating pipelines
+
+As a final step, we are creating a Pipeline using the Python SDK in a Jupyter Notebook (see aml-pipelines-with-automated-machine-learning-step.ipynb). The pipeline is simply doing the same steps as previously, but in an automated fashion.
+
+We can see in the next picture the graphical representation of the pipeline (though it has been created with code). Note the Bankmarketing Dataset and the Automl modules
+
+![alt text](Screenshots/pipeline.png "Pipeline")
+
+From the Notebook perspective, we can see the run has been completed, including the deployment of the pipeline
+
+![alt text](Screenshots/Notebook.png "Pipeline notebook")
+
+From the Azure ML web UI we can see that the pipeline has been created
+
+![alt text](Screenshots/pipeline-runs.png "Pipeline runs")
+
+The pipeline endpoint can be seen in the pipelines and endpoints sections
+
+![alt text](Screenshots/pipeline-endpoint.png "Pipeline endpoint")
+![alt text](Screenshots/pipeline-endpoint2.png "Pipeline endpoint")
+
+Finally, the pipeline REST endpoint status can be seen in the next picture
+
+![alt text](Screenshots/pipeline-rest.png "Pipeline REST endpoint status")
 
 ## Screen Recording
 *TODO* Provide a link to a screen recording of the project in action. Remember that the screencast should demonstrate:
